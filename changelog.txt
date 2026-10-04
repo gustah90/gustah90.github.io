@@ -1,0 +1,139 @@
+# Changelog
+
+Todas as mudanças relevantes serão registradas aqui. A versão do projeto segue SemVer e é definida em `package.json`.
+
+## [0.7.0] - 2026-10-04
+
+### Added
+
+- HTML meta CSP for static hosting and a security policy that distinguishes Pages from the optional Nginx runtime.
+- Separate GitHub Pages promotion workflow for the free public compiled-site repository; private source and drafts stay isolated.
+- Tested static artifact with SHA-256 integrity, exact main CI/release/version checks, serialized promotion and fast-forward-only destination updates.
+- Public changelog and security policy endpoints synchronized with OpenAPI and the Postman/Insomnia collection.
+
+### Changed
+
+- The tested portal now includes the actual CI contribution snapshot and immutable build revision.
+- Footer links to the public GitHub profile, and documentation links work without access to the private repository.
+- Diagnostic submission is disabled unless a collector is explicitly enabled in site configuration.
+- Hosting is GitHub Pages only for now; review remains noindex and Vercel is deferred.
+
+## [0.6.0] - 2026-10-04
+
+### Added
+
+- Quadro de contribuições GitHub reutilizável na página inicial, traduzido, responsivo e com tabela diária acessível.
+- Atualização de dados agregados no CI pela API oficial, token efêmero, timeout e fallback explícito; sem nomes de repositórios, mensagens de commits ou credenciais no portal.
+- Escopo editorial da IA: revisão de idioma, formatação, tradução e verificação de evidências por afirmação; sem alegar integração ou inferência existentes.
+
+## [0.5.1] - 2026-10-04
+
+### Changed
+
+- Registro do repositório privado, ruleset main-quality sem bypass e ambientes preview/release/production efetivamente cadastrados no GitHub.
+- Inventário atualizado com SONAR_PROJECT_KEY e RELEASE_ENABLED=false; release e production aceitam somente main.
+- Limitação observada: o plano GitHub atual não aplica rulesets ou proteção clássica no repositório privado. Proteção cadastrada não equivale a enforcement.
+- Publicação autorizada pelo proprietário; hospedagem, domínio, borda e verificações finais continuam pendentes. Quadro de atividade GitHub incluído nos requisitos.
+
+## [0.5.0] - 2026-10-04
+
+### Added
+
+- Sveltia CMS 0.227.4 em artefato/editor privado separado, i18n e fluxo editorial GitHub com PRs; sem credenciais cadastradas ou editor hospedado.
+- Uploads originais fora da pasta pública; cópia exclusiva de referências aprovadas, limites e validação de assinatura raster para evitar exposição de mídia de rascunhos.
+- Compilador Markdown com validação de metadados, sanitização, exclusão de rascunhos/datas futuras, páginas completas, busca e sitemap sincronizados.
+- Preparação automática de versão/changelog/contratos para PRs editoriais enviados para revisão; código privilegiado vem de main e validações exigem o SHA preparado.
+- Imagem Docker privada do editor, CSP própria e testes de autenticação inicial sem token.
+
+### Fixed
+
+- Bootstrap Sonar gera senha efêmera com categorias obrigatórias; caminhos editoriais têm validações separadas e saídas de build explicitamente tipadas.
+- Dependência transitiva http-cache-semantics atualizada para 4.3.0; alerta de cache corrigido sem downgrade do framework.
+- Preparação editorial repetida pode redisparar validação sem commit extra; código e tabelas dos artigos são roláveis por teclado.
+
+## [0.4.2] - 2026-10-04
+
+### Fixed
+
+- Coletor descarta eventos tardios após erro de conexão, impedindo contabilização ou resposta duplicada.
+- Integração de observabilidade espera a primeira amostra de cada probe e verifica os nove alvos; Grafana não instala plugins sugeridos automaticamente.
+- Gate efêmero avalia código total desde a primeira análise; relatórios vazios não são aceitos. Definições TypeScript instaladas para análise completa.
+
+### Added
+
+- SonarQube Community Build efêmero no CI quando não há serviço externo configurado, com token de análise gerado por job e Quality Gate aguardado.
+- Relatório agregado do gate e cleanup do servidor de teste, sem publicar serviço ou credenciais.
+- Política Sonar documentada, com justificativa específica para dois exemplos de URLs internas de collection e nenhuma exclusão executável de cobertura.
+
+## [0.4.1] - 2026-10-04
+
+### Added
+
+- Dependabot, template de PR, ruleset de main preparado e inventário de variáveis/secrets por ambiente.
+- Relatório da decisão de IA e responsabilidades de ativação administrativa.
+
+## [0.4.0] - 2026-10-04
+
+### Added
+
+- Stack privada de observabilidade com Prometheus, Grafana, exporter Nginx, probes HTTP, dashboards provisionados e alertas testados.
+- Coletor opcional de diagnóstico: envio manual, validação atômica, cardinalidade limitada, histogramas e nenhuma retenção de eventos individuais.
+- Contrato OpenAPI e collection Postman/Insomnia separados para endpoints operacionais, sincronizados no build.
+- Runbook de incidentes, retenção, privacidade e matriz de prontidão; configuração de governança preparada para administração do GitHub.
+- Gate de integração da stack no CI; interfaces operacionais restritas a loopback e rede Docker interna.
+
+## [0.3.0] - 2026-10-04
+
+### Added
+
+- Scripts de build e validação no gate de cobertura por arquivo, com testes de falha e contrato.
+- Explorador reutilizável de artigos: pesquisa local, paginação automática e botão acessível, skeletons de cards, estados vazios/erro e retry.
+- Prettier, Husky e Commitlint com Conventional Commits; verificação no CI.
+- Gate que confronta as rotas efetivamente geradas com os endpoints OpenAPI/collection.
+- JSDoc na lógica pública, OpenAPI/Swagger e collection Postman/Insomnia gerada do contrato.
+- Robots, sitemap, metadados sociais e canonical/hreflang condicionados ao domínio real; preview noindex.
+- Matriz versionada de requisitos, decisões e pendências; ADR para IA opcional, sem integração no runtime.
+- Proteção contra carregamentos duplicados, resposta após dispose e paginação durante filtro pendente; timeout e retry com novo AbortController.
+
+### Fixed
+
+- Área mínima de 44px nos controles de operação/cópia do Swagger, evitando alvos estreitos.
+- Favicon explícito, eliminando a requisição 404 apontada pelo Lighthouse.
+- Importação JSON dos testes Playwright compatível com Node 24.
+- Links do catálogo renderizados no build, com fallback sem JavaScript.
+- Deep linking do Swagger desativado para evitar links aninhados em botões de operação.
+- Contraste dos badges, links e operações do Swagger ajustado aos tokens acessíveis.
+- Semântica do Swagger integrada à hierarquia do portal; teste por nome acessível e axe.
+- Playwright no CI executa contra o container protegido, validando a CSP real.
+
+## [0.2.0] - 2026-10-04
+
+### Added
+
+- Rota de documentação em português, inglês e espanhol, com diagnóstico local.
+- Eventos de navegação, erros e Web Vitals sem coleta de dados pessoais ou transmissão externa.
+- Playwright e axe em desktop e mobile; Lighthouse CI com limites explícitos.
+- Testes unitários de lógica e componentes Astro com cobertura mínima de 80% por arquivo.
+- Governança detalhada no README e manifesto explícito de exclusões de cobertura.
+- Configuração SonarQube com LCOV e espera de Quality Gate; serviço ainda requer configuração.
+- Endpoint estático /health.json e logs Nginx em JSON sem argumentos de URL.
+
+- Hardening Nginx: CSP restritiva, bloqueio de métodos/arquivos sensíveis, rate limit, limites de conexão e timeouts.
+- Container sem root, com execução read-only e recursos limitados no CI; cache somente de assets públicos com hash.
+- Política de segurança, requisitos de proteção DDoS na borda e avaliação explícita de dependência de cache.
+
+### Fixed
+
+- Espera de prontidão do container no CI para tratar resets de conexão durante a inicialização.
+
+## [0.1.0] - 2026-10-04
+
+### Added
+
+- Base Astro com português (pt-BR), inglês e espanhol em rotas independentes.
+- Identidade visual inicial acolhedora e estrutura semântica acessível.
+- Página de acessibilidade com meta WCAG 2.2 AA e avaliação manual pendente.
+- Primeiro artigo reservado para migração Apache/PHP para Nginx, sem relato técnico inventado.
+- CI de tipos, build, verificação de versão, rotas e contraste dos tokens principais.
+- Imagem Docker Nginx com versão em ENV, label OCI, JSON público e rodapé.
+- ADR de arquitetura e roteiro de coleta de evidências para o artigo.

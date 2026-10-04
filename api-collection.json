@@ -1,0 +1,147 @@
+{
+  "info": {
+    "name": "gustavo.dev public endpoints",
+    "description": "Generated from docs/api/openapi.json. Import into Postman or Insomnia. No secrets included.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4321", "type": "string" },
+    { "key": "lang", "value": "pt", "type": "string" },
+    { "key": "slug", "value": "article-slug", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Build readiness",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/health.json",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Version and revision",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/version.json",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Public article index",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/posts.json",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "OpenAPI contract",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/openapi.json",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Postman / Insomnia collection",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api-collection.json",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Crawler rules",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/robots.txt",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Public sitemap",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/sitemap.xml",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Language selector",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Localized home",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Localized documentation",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/docs/",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Accessibility statement",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/accessibility/",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Swagger UI",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/docs/api/",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation."
+      }
+    },
+    {
+      "name": "Read an approved localized article",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/posts/{{slug}}/",
+        "description": "Generated only for approved Markdown entries with a publication date already reached. Drafts and missing translations have no route. A placeholder slug will return 404."
+      }
+    },
+    {
+      "name": "Public changelog",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/changelog.txt"
+      }
+    },
+    {
+      "name": "Public security policy",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/security.txt"
+      }
+    }
+  ]
+}

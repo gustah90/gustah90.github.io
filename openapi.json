@@ -1,0 +1,309 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "gustavo.dev public endpoints",
+    "version": "0.7.0",
+    "description": "Static portal. No backend, authenticated API, SSE or WebSocket."
+  },
+  "servers": [{ "url": "/" }],
+  "paths": {
+    "/health.json": {
+      "get": {
+        "summary": "Build readiness",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status", "version"],
+                  "properties": {
+                    "status": { "type": "string", "const": "ok" },
+                    "version": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      }
+    },
+    "/version.json": {
+      "get": {
+        "summary": "Version and revision",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["version", "revision"],
+                  "properties": {
+                    "version": { "type": "string" },
+                    "revision": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      }
+    },
+    "/{lang}/posts.json": {
+      "get": {
+        "summary": "Public article index",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "locale",
+                      "slug",
+                      "title",
+                      "excerpt",
+                      "date",
+                      "tags"
+                    ],
+                    "properties": {
+                      "locale": {
+                        "type": "string",
+                        "enum": ["pt", "en", "es"]
+                      },
+                      "slug": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+                      },
+                      "title": { "type": "string" },
+                      "excerpt": { "type": "string" },
+                      "date": { "type": "string", "format": "date" },
+                      "tags": { "type": "array", "items": { "type": "string" } }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      },
+      "parameters": [
+        {
+          "name": "lang",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "enum": ["pt", "en", "es"] }
+        }
+      ]
+    },
+    "/openapi.json": {
+      "get": {
+        "summary": "OpenAPI contract",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      }
+    },
+    "/api-collection.json": {
+      "get": {
+        "summary": "Postman / Insomnia collection",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": {
+              "application/json": { "schema": { "type": "object" } }
+            }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      }
+    },
+    "/robots.txt": {
+      "get": {
+        "summary": "Crawler rules",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": { "text/plain": { "schema": { "type": "string" } } }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      }
+    },
+    "/sitemap.xml": {
+      "get": {
+        "summary": "Public sitemap",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": { "application/xml": { "schema": { "type": "string" } } }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Language selector",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      }
+    },
+    "/{lang}/": {
+      "get": {
+        "summary": "Localized home",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      },
+      "parameters": [
+        {
+          "name": "lang",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "enum": ["pt", "en", "es"] }
+        }
+      ]
+    },
+    "/{lang}/docs/": {
+      "get": {
+        "summary": "Localized documentation",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      },
+      "parameters": [
+        {
+          "name": "lang",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "enum": ["pt", "en", "es"] }
+        }
+      ]
+    },
+    "/{lang}/accessibility/": {
+      "get": {
+        "summary": "Accessibility statement",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      },
+      "parameters": [
+        {
+          "name": "lang",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "enum": ["pt", "en", "es"] }
+        }
+      ]
+    },
+    "/docs/api/": {
+      "get": {
+        "summary": "Swagger UI",
+        "description": "GET/HEAD only. Static public data; no authentication or write operation.",
+        "responses": {
+          "200": {
+            "description": "Public static representation",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          },
+          "404": { "description": "Route does not exist" }
+        }
+      }
+    },
+    "/{lang}/posts/{slug}/": {
+      "x-conditional-content": true,
+      "get": {
+        "summary": "Read an approved localized article",
+        "description": "Generated only for approved Markdown entries with a publication date already reached. Drafts and missing translations have no route. A placeholder slug will return 404.",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["pt", "en", "es"] }
+          },
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article HTML",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          },
+          "404": { "description": "No approved article at this permalink" }
+        }
+      }
+    },
+    "/changelog.txt": {
+      "get": {
+        "summary": "Public changelog",
+        "responses": {
+          "200": {
+            "description": "Public changelog",
+            "content": { "text/plain": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/security.txt": {
+      "get": {
+        "summary": "Public security policy",
+        "responses": {
+          "200": {
+            "description": "Public security policy",
+            "content": { "text/plain": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    }
+  }
+}

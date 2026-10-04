@@ -1,0 +1,67 @@
+# Segurança do portal
+
+## Arquitetura e limites
+
+O build produz arquivos estáticos. Na validação pública autorizada, GitHub Pages serve essa saída; Nginx é o runtime opcional da implantação Docker. Nenhuma dessas implantações públicas executa Node, PHP, Java, Spring, banco, sessões ou API de escrita. WebSocket e SSE não são necessários. O Sveltia CMS é separado: alterações editoriais passam por Git e pipeline antes de virar conteúdo público.
+
+A pesquisa carrega uma vez um índice público da própria origem, sem credenciais, e filtra localmente. Swagger carrega apenas o contrato local, sem validator externo ou comandos de escrita.
+
+Nenhum sistema é à prova de DDoS. Rate limit e timeouts protegem recursos locais, mas não impedem saturação do link. Na implantação Docker com origin próprio, configurar CDN/WAF com mitigação volumétrica, HTTPS e firewall do origin aceitando somente a borda antes da publicação. No GitHub Pages, borda, disponibilidade e cache HTTP são administrados pelo GitHub; o projeto não controla WAF, limites por IP ou firewall desse serviço. O endereço do origin não deve aparecer no DNS público. Ajustar limites após medir tráfego legítimo, incluindo pessoas atrás de NAT. Não executar testes de carga contra terceiros.
+
+O Nginx usa o endereço da conexão, nunca confia automaticamente em X-Forwarded-For. Com CDN, os limites locais podem agrupar os visitantes pelo proxy; habilitar real_ip SOMENTE com CIDRs oficiais do provedor escolhido e configurar os limites por visitante também na borda. Não usar set_real_ip_from 0.0.0.0/0. HSTS deve ser configurado no terminador HTTPS após validar o domínio; includeSubDomains somente se todos os subdomínios tiverem HTTPS. No Pages, HTTPS é obrigatório no domínio gratuito; na implantação própria, TLS deve ser configurado no terminador HTTPS.
+
+## Segredos e exposição
+
+O bundle e os endpoints públicos expõem somente versão/revisão e conteúdo editorial. Nunca passar tokens, senhas, chaves ou configuração privada em ARG/ENV do Dockerfile: podem permanecer em metadados e camadas. Os únicos ENV definidos pelo projeto na imagem são metadados públicos de versão/revisão; não há endpoint de ambiente. Segredos de CI ficam em GitHub Secrets, com privilégios mínimos, e não são impressos em logs. `.env*` fica fora do Git e do contexto Docker. Se ocorrer vazamento, revogar/rotacionar primeiro, remover depois e avaliar histórico e artefatos.
+
+Telemetria fica em memória do visitante, com buffer limitado, sem transmissão externa, URL/query pessoais, cookies ou armazenamento persistente. Logs de acesso não registram IP nem argumentos. Logs de erro do servidor podem conter informações de requisição: manter acesso restrito e retenção curta na infraestrutura.
+
+## Cache
+
+Na implantação Nginx, HTML e JSON recebem `Cache-Control: no-store`. No GitHub Pages esse cabeçalho não é configurável pelo projeto: verifique atualização de documentos/JSON após cada publicação, sem prometer ausência de cache do provedor. Somente arquivos públicos gerados em `/_astro/`, com nome contendo hash, recebem cache imutável. Não existe service worker, cache de respostas personalizadas, proxy_cache ou backend compartilhado. CDN deve respeitar os headers e nunca armazenar respostas com Authorization, Set-Cookie, conteúdo administrativo ou de preview. Cookies, identidade e parâmetros de consulta não devem alterar conteúdo cacheável.
+
+Se Java/Spring for introduzido, uma nova ADR e análise de ameaça são obrigatórias. Não usar `@Cacheable` em dados privados sem chave contendo identidade/tenant e escopo autorizado; não compartilhar cache de autorização, sessão ou respostas de usuários. Exigir TTL, invalidação, limite de tamanho e testes de isolamento. O portal não guarda segredos em localStorage. O modo PAT do Sveltia armazena o token no navegador e exige origem privada, dispositivo confiável, expiração e logout; é uma limitação explícita. Não precachear páginas administrativas.
+
+## Injeção e CMS
+
+O portal atual não executa consultas SQL. Em um CMS/backend, exigir queries parametrizadas/ORM com bind parameters, validação de entrada e conta de banco de privilégio mínimo. Não concatenar strings em SQL. Tratar conteúdo editorial como entrada não confiável: sanitizar HTML com allowlist, proibir scripts/embeds arbitrários e preservar escape no frontend. O admin exige MFA, autorização por função, CSRF quando usar cookies, cookies Secure/HttpOnly/SameSite e limitação de tentativas. Manter admin e banco separados da origem pública; preview privado não pode entrar em cache compartilhado.
+
+A CSP atual permite scripts e estilos somente da própria origem, proíbe frames, formulários, objetos e conexões externas de navegador. Qualquer integração que precise relaxar a CSP deve documentar os domínios e propósito, com testes. Sem unsafe-inline/unsafe-eval.
+
+## Dependências e vulnerabilidades
+
+Em 2026-10-04, o lock foi atualizado para http-cache-semantics@4.3.0, corrigindo o alerta GHSA-ch52-4w7c-c8xp anteriormente registrado. A dependência é de build e não entra no runtime Nginx. Não executar npm audit fix --force para rebaixar o framework ou ferramentas para versões antigas.
+
+A auditoria completa ainda identifica alertas transitivos nas ferramentas Lighthouse CLI/Puppeteer/proxy de desenvolvimento. A sugestão automática de rebaixar @lhci/cli para 0.1.0 não é uma solução compatível aceita. As ferramentas são usadas em runners isolados para URLs locais, sem credenciais de produção, e não estão nas imagens de runtime. Isso não equivale a npm audit limpo nem resolve risco do ambiente de build; revisar alertas antes de cada release pública, acompanhar correção upstream e registrar mudança de exposição. O CMS também é uma aplicação de navegador separada: auditar sua árvore e bundle em cada atualização.
+
+Antes da publicação, exigir análise de dependências e da imagem de runtime, correção de vulnerabilidades aplicáveis, SonarQube e revisão das exceções justificadas. Não marcar o portal como pronto enquanto infraestrutura e gates estiverem pendentes. O CI valida CSP/headers, métodos bloqueados, arquivos sensíveis e runtime sem root; não certifica resistência a DDoS.
+
+## Relatar problemas
+
+Não enviar credenciais, dados pessoais ou detalhes exploráveis em issues públicas. Usar GitHub Private Vulnerability Reporting se estiver habilitado; caso contrário, solicitar ao mantenedor um canal privado antes de compartilhar a reprodução. A configuração desse canal depende do mantenedor.
+
+## Concorrência e limites de requisição
+
+O explorador mantém uma inicialização por elemento (WeakMap), uma carga de catálogo em voo, AbortController novo por tentativa, timeout de 10s e descarte de respostas após desmontagem. Cleanup cancela requisição, debounce e observer. A paginação fica suspensa enquanto um novo filtro está pendente; pesquisa e paginação não disparam consultas de rede. Índice é público e só permanece na memória do componente. Não guardar respostas por usuário em um singleton de servidor.
+
+Um CMS ou backend futuro deve implementar controle otimista de edição (versão/ETag com If-Match e conflito 409/412), transações e constraints no banco, chaves de idempotência para operações repetíveis, limites de concorrência e timeouts. Não prometer entrega exactly-once nem usar locks em memória como coordenação entre réplicas. Esses recursos não estão implementados para conteúdo: o coletor opcional somente agrega diagnósticos, sem editar posts.
+
+## Observabilidade opcional
+
+A composição privada adiciona POST /telemetry com Origin exato, JSON estrito, corpo limitado a 8KB, até cinquenta eventos, sete tipos e onze rotas enumeradas. Campos desconhecidos e medições inválidas são rejeitados antes de mutação; a agregação síncrona em memória não compartilha estado entre réplicas. O proxy limita a 1 requisição/s com burst 2, remove Cookie/Authorization/Referer e usa timeouts. Origin não autentica o visitante, e amostras podem ser falsificadas: não usar contadores como prova de segurança ou analytics confiável.
+
+O browser só pode enviar quando `telemetryEnabled: true` habilita um collector configurado, mediante ação explícita e sem persistência de consentimento. A configuração pública atual é `false`: o botão permanece desabilitado e não há POST de diagnóstico no Pages. Sem envio automático ou texto livre. Prometheus/Grafana são administrativos, com acesso no loopback; métricas, exporter e stub_status ficam somente na rede interna. Nenhum socket Docker ou modo privilegiado é usado. Senha administrativa e chave de criptografia Grafana são arquivos em secrets, fora de Git/build. O CI gera credenciais efêmeras e remove a stack ao terminar. Logs têm rotação por tamanho; error logs exigem controle de acesso por poderem conter contexto operacional. Não substituir a política da hospedagem por esses limites locais.
+
+## Editor e automação editorial
+
+O CMS é distribuído separadamente, sem CDN de scripts/fontes, vinculado somente ao loopback. Seu CSP permite conexão com api.github.com e estilo inline exigido pelo painel; o CSP do portal continua sem inline. A autenticação real não está ativada. Configuração token-only restringe o backend ao repositório definido e evita brokers públicos. Fine-grained PAT exige escopo mínimo, expiração e logout; preferência por pasta local quando armazenamento de token não for aceitável. Não expor o painel publicamente por causa de robots/noindex.
+
+Markdown é compilado no build; HTML autoral é descartado e o resultado sanitizado por allowlist. Não há MDX ou execução de código editorial. Imagens exigem caminhos locais raster e alt; uploads vindos de autor devem ser revisados, limitados e reprocessados antes da publicação. Não há scanner de arquivos/malware implementado. Rascunhos não chegam ao dist.
+
+A automação pull_request_target executa exclusivamente código/dependências da main confiável, sem checkout de código do PR. Só aceita branch editorial do mesmo repositório privado, enviado para revisão, com até 99 arquivos de conteúdo permitidos e metadados controlados. Os seis arquivos de versão são derivados da main, sem aceitar alterações de dependências do PR. Atualização sem force e comparação de SHA da base/head recusam edições concorrentes; preparação repetida não cria commits extras e pode redisparar CI. Integração ainda depende dos checks do commit resultante e regras da main.
+
+## GitHub Pages de validação
+
+O repositório público de hospedagem contém apenas o portal compilado; fonte, rascunhos, CMS, collector e monitoramento ficam privados. O pipeline exige CI do SHA atual da main, versão/revisão e release/tag correspondentes, integridade do artefato e push sem force. O token de CD fica exclusivamente em GitHub Secrets de production, restrito à escrita de conteúdo no destino público. Os detalhes operacionais estão em docs/operations/github-pages.md no repositório de desenvolvimento.
+
+O HTML inclui CSP por meta tag para restringir scripts, estilos, imagens, fontes e conexões à própria origem e bloquear bases, objetos e submissões de formulário. Essa meta tag não aplica frame-ancestors, HSTS, Permissions-Policy, X-Frame-Options ou X-Content-Type-Options: esses cabeçalhos continuam sendo proteções da implantação Nginx/terminador HTTPS, não garantias do Pages. Meta CSP complementa sanitização editorial e não protege contra servidor/conta comprometidos. robots/noindex não limita acesso. Nenhum rascunho privado deve ser promovido.
