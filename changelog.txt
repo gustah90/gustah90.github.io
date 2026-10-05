@@ -2,6 +2,43 @@
 
 Todas as mudanças relevantes serão registradas aqui. A versão do projeto segue SemVer e é definida em `package.json`.
 
+## [0.8.0] - 2026-10-04
+
+- Separada a política fixa de recusa IPv4 do verificador SSRF em configuração versionada, preservando todas as faixas, sem novas supressões Sonar; RSS simplificado para eliminar templates aninhados.
+
+- Corrigida a ordem semântica dos títulos nas páginas de tag com nível configurável no card reutilizável e verificação de regressão nos três idiomas.
+
+- Corrigido o timeout de inicialização dos probes reais no CI para cobrir três ciclos de scrape sem aprovar métricas ausentes.
+
+- Personalized en/pt/es introduction based on the author-provided CV, excluding contact details; localized About, year archive, tag counts/pages, estimated reading time and deterministic RSS generated from approved content.
+- Safe primary-source quote verifier with HTTPS allowlist, pinned public IPv4 DNS, TLS validation, bounded time/size, no redirects, private exclusive reports and mandatory factual author review; real source retrieval checked in CI.
+- Fixed theme hydration layout shift by reserving its space before JavaScript, with delayed-loading regression; retained performance >=95 and corrected all four reported Sonar findings.
+
+- Private real LM Studio editorial client with bounded structured translations, fail-closed responses, exclusive proposals and mandatory evidence/author review; no runtime fallback or publishing credentials.
+- Opt-in HTTPS probes of the real Pages destination, with private Prometheus/Grafana, configuration validation and explicit operational availability limits.
+
+### Added
+
+- English home content at the root, with explicit /en/, /pt/ and /es/ routes and accessible flag language controls that preserve translated pages.
+- Site-wide light/dark themes, early CSP-compatible theme initialization, OS preference support, a keyboard-operable toggle and a locally stored display preference.
+- First introduction article in English, Portuguese and Spanish; the Apache/PHP to Nginx account becomes a later article awaiting real configurations.
+- Month labels, stronger theme-aware contribution colors, a legend, per-day native labels and a daily table containing only contributed days.
+- Unit and browser coverage for theme persistence, blocked storage, system changes, tooltip dismissal, translated article routes, dark Swagger and calendar data/color consistency.
+- Reference gap review distinguishing implemented features, optional editorial improvements and infrastructure/credential blockers.
+
+### Changed
+
+- Light mode uses warm beige surfaces rather than white or near-white backgrounds.
+- Shared home composition avoids duplicated English and localized templates; the private CMS defaults to English.
+- Theme tokens cover cards, inputs, tables, skeletons, article code and Swagger; telemetry documentation distinguishes the harmless theme preference from diagnostic data.
+
+## [0.7.1] - 2026-10-04
+
+### Fixed
+
+- Documentation in Portuguese, English and Spanish now describes the deployed Pages preview and disabled diagnostic submission accurately.
+- Governance and requirements record the verified first publication, immutable CI/artifact evidence and outstanding CD credential and branch protection limitations.
+
 ## [0.7.0] - 2026-10-04
 
 ### Added

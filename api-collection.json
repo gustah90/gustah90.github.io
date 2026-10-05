@@ -6,8 +6,9 @@
   },
   "variable": [
     { "key": "baseUrl", "value": "http://localhost:4321", "type": "string" },
-    { "key": "lang", "value": "pt", "type": "string" },
-    { "key": "slug", "value": "article-slug", "type": "string" }
+    { "key": "lang", "value": "en", "type": "string" },
+    { "key": "slug", "value": "article-slug", "type": "string" },
+    { "key": "tag", "value": "", "type": "string" }
   ],
   "item": [
     {
@@ -141,6 +142,46 @@
         "method": "GET",
         "header": [],
         "url": "{{baseUrl}}/security.txt"
+      }
+    },
+    {
+      "name": "Author biography",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/about/"
+      }
+    },
+    {
+      "name": "Article archive by year",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/archive/"
+      }
+    },
+    {
+      "name": "Tag counts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/tags/"
+      }
+    },
+    {
+      "name": "Approved articles by tag",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/tags/{{tag}}/"
+      }
+    },
+    {
+      "name": "Localized RSS feed",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/{{lang}}/rss.xml"
       }
     }
   ]

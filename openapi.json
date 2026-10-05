@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "gustavo.dev public endpoints",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "description": "Static portal. No backend, authenticated API, SSE or WebSocket."
   },
   "servers": [{ "url": "/" }],
@@ -301,6 +301,110 @@
           "200": {
             "description": "Public security policy",
             "content": { "text/plain": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/{lang}/about/": {
+      "get": {
+        "summary": "Author biography",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["en", "pt", "es"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approved public content",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/{lang}/archive/": {
+      "get": {
+        "summary": "Article archive by year",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["en", "pt", "es"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approved public content",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/{lang}/tags/": {
+      "get": {
+        "summary": "Tag counts",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["en", "pt", "es"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approved public content",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/{lang}/tags/{tag}/": {
+      "get": {
+        "summary": "Approved articles by tag",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["en", "pt", "es"] }
+          },
+          {
+            "name": "tag",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approved public content",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        }
+      },
+      "x-conditional-content": true
+    },
+    "/{lang}/rss.xml": {
+      "get": {
+        "summary": "Localized RSS feed",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["en", "pt", "es"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approved public content",
+            "content": {
+              "application/rss+xml": { "schema": { "type": "string" } }
+            }
           }
         }
       }
