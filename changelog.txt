@@ -2,6 +2,16 @@
 
 Todas as mudanças relevantes serão registradas aqui. A versão do projeto segue SemVer e é definida em `package.json`.
 
+## [0.10.0] - 2026-10-04
+
+### Added
+
+- Link do LinkedIn com ícone decorativo, texto acessível e cores coerentes com ambos os temas.
+- Documentação e acessibilidade revisadas em en/pt/es, com linguagem natural, seções claras e estado de validação preciso.
+- Integração de comentários Giscus com carregamento explícito, en/pt/es, temas sincronizados, mensagens de erro e alternativa GitHub Discussions.
+- Configuração pública validada com os identificadores reais do repositório e da categoria Announcements; nenhuma discussão fictícia ou credencial no frontend.
+- Testes de consentimento, origem de mensagens, concorrência, descarte, falhas e cobertura por arquivo.
+
 ## [0.9.0] - 2026-10-04
 
 - Busca no topo da inicial em en/pt/es, com as tags em seção abaixo do calendário: pílulas, contagens reais e páginas de assunto conforme a referência.

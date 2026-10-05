@@ -192,6 +192,15 @@
         "url": "{{baseUrl}}/{{lang}}/older-posts/",
         "description": "Localized approved article catalog. Loads finite batches locally with optional infinite scroll and an accessible manual load button. The home page is limited to four recent posts."
       }
+    },
+    {
+      "name": "Giscus allowed origins",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/giscus.json",
+        "description": "Public provider configuration; no tokens or credentials. Comments are hosted externally in GitHub Discussions."
+      }
     }
   ]
 }
