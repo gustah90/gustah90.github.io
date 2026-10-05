@@ -2,6 +2,24 @@
 
 Todas as mudanças relevantes serão registradas aqui. A versão do projeto segue SemVer e é definida em `package.json`.
 
+## [0.11.1] - 2026-10-05
+
+### Changed
+
+- Catálogo Older posts com apresentação localizada, retorno à inicial, tags e lista editorial responsiva, sem fundos de cards e com separadores discretos.
+- Contagem singular de artigos corrigida em en/pt/es; scroll infinito opcional, busca e navegação manual preservados.
+- Acesso ao CMS privado documentado com comandos completos; levantamento de usos de IA, provedores, limites gratuitos e dependências atualizado com fontes primárias.
+
+### Fixed
+
+- CSP do HTML e do contêiner com terminador explícito na última diretiva, prevenindo que uma diretiva acrescentada seja interpretada como valor de form-action.
+- Testes do artefato e do navegador verificam separação de diretivas e fontes restritas à própria origem. Domínios de fontes desconhecidas não foram liberados.
+
+### Known limitations
+
+- A origem da alteração de CSP relatada no navegador do autor e das fontes com URL omitida não foi identificada. O terminador é uma proteção contra concatenação, não comprovação de correção de uma extensão externa.
+- O 404 Discussion not found do Giscus é esperado antes de existir uma discussão correspondente; não foram criados comentários ou reações artificiais.
+
 ## [0.11.0] - 2026-10-05
 
 ### Changed
