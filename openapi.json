@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "gustavo.dev public endpoints",
-    "version": "0.8.0",
+    "version": "0.9.0",
     "description": "Static portal. No backend, authenticated API, SSE or WebSocket."
   },
   "servers": [{ "url": "/" }],
@@ -407,6 +407,26 @@
             }
           }
         }
+      }
+    },
+    "/{lang}/older-posts/": {
+      "get": {
+        "summary": "Older posts with optional infinite scroll",
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "enum": ["en", "pt", "es"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Approved public content",
+            "content": { "text/html": { "schema": { "type": "string" } } }
+          }
+        },
+        "description": "Localized approved article catalog. Loads finite batches locally with optional infinite scroll and an accessible manual load button. The home page is limited to four recent posts."
       }
     }
   }

@@ -2,6 +2,15 @@
 
 Todas as mudanças relevantes serão registradas aqui. A versão do projeto segue SemVer e é definida em `package.json`.
 
+## [0.9.0] - 2026-10-04
+
+- Busca no topo da inicial em en/pt/es, com as tags em seção abaixo do calendário: pílulas, contagens reais e páginas de assunto conforme a referência.
+- Tags atribuíveis por post no CMS e componentes reutilizáveis para links de assunto no cabeçalho e nos cards.
+- Estrutura dos artigos com metadados, sumário lateral responsivo com todos os títulos h2–h6, gerado no build, âncoras únicas e focáveis, corpo sanitizado, encerramento e outros posts reais no mesmo idioma.
+- Inicial limitada aos quatro posts mais recentes; Older posts com catálogo completo, scroll infinito opcional e botão manual. Rota documentada em OpenAPI, collection e sitemap.
+- Documentada a inclusão dos agregados privados disponibilizados pelo GitHub após ativação externa da preferência pelo autor, verificada em 2026-10-04; detalhes privados continuam excluídos.
+- Janela de espera da release ampliada para o CI completo, preservando a exigência de aprovação.
+
 ## [0.8.0] - 2026-10-04
 
 - Separada a política fixa de recusa IPv4 do verificador SSRF em configuração versionada, preservando todas as faixas, sem novas supressões Sonar; RSS simplificado para eliminar templates aninhados.
