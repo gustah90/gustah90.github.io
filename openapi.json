@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "gustavo.dev public endpoints",
-    "version": "0.10.0",
+    "version": "0.11.0",
     "description": "Static portal. No backend, authenticated API, SSE or WebSocket."
   },
   "servers": [{ "url": "/" }],

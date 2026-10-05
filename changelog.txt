@@ -2,6 +2,16 @@
 
 Todas as mudanças relevantes serão registradas aqui. A versão do projeto segue SemVer e é definida em `package.json`.
 
+## [0.11.0] - 2026-10-05
+
+### Changed
+
+- Busca com ícone no cabeçalho, entre a marca e os idiomas; em telas pequenas, o ícone abre o campo com foco e fechamento por Escape.
+- Pesquisa local reutilizada na inicial e em Older posts; pesquisas feitas em outras páginas abrem o catálogo completo usando fragmento, sem enviar o termo na requisição HTTP.
+- Comentários carregados automaticamente perto da área de leitura, sem botão Load comments e sem link Open GitHub Discussions.
+- Sumário sem borda ou painel de fundo. Posts na inicial sem borda e com fundo transparente; tags com borda e navegação para seus artigos.
+- Documentação, privacidade, testes de responsividade, concorrência e contratos atualizados para a nova versão.
+
 ## [0.10.0] - 2026-10-04
 
 ### Added
