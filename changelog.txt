@@ -2,6 +2,19 @@
 
 Todas as mudanças relevantes serão registradas aqui. A versão do projeto segue SemVer e é definida em `package.json`.
 
+## [0.11.2] - 2026-10-12
+
+### Added
+
+- Gate de exposição pública para 24 caminhos de configuração, Git e backups: GET real, origem validada, timeout, limite de leitura e ausência de credenciais/redirects.
+- Artefato recusado se contiver arquivos privados, backups, links simbólicos ou arquivos especiais. CI verifica a origem candidata e o domínio público.
+- CD do Pages verifica artefato e domínio antes da promoção, depois exige a revisão publicada e repete os probes. Resultados inconclusivos e exposição bloqueiam o fluxo; relatórios não registram corpos de resposta.
+- Testes de falhas, soft 404, assinaturas privadas em páginas de erro, revisão antiga, limites e metadados inválidos.
+
+### Known limitations
+
+- O gate cobre uma lista explícita e assinaturas comuns, não prova ausência de todos os segredos. A verificação após deploy é detecção: uma exposição já publicada exige resposta a incidente e rotação de credenciais, sem rollback automático nem promessa de apagar histórico/cache.
+
 ## [0.11.1] - 2026-10-05
 
 ### Changed
